@@ -29,6 +29,7 @@ OPTIONS
 CHECKS
   ✓ README.md exists and has content
   ✓ LICENSE file exists
+  ✓ SKILL.md exists (for agents)
   ✓ package.json is valid (Node.js projects)
   ✓ Git repository is initialized
   ✓ No uncommitted changes (optional)
@@ -111,6 +112,21 @@ function checkReadme() {
     addWarning('README.md is too short (< 50 chars)');
   } else {
     addPassed('README.md exists with content');
+  }
+}
+
+// Check: SKILL.md
+function checkSkillMd() {
+  if (!fileExists('SKILL.md')) {
+    addWarning('SKILL.md not found (recommended for agent skills)');
+    return;
+  }
+  
+  const content = readFile('SKILL.md');
+  if (!content || content.trim().length < 50) {
+    addWarning('SKILL.md is too short (< 50 chars)');
+  } else {
+    addPassed('SKILL.md exists with content');
   }
 }
 
@@ -311,6 +327,7 @@ function runChecks() {
   
   checkReadme();
   checkLicense();
+  checkSkillMd();
   checkGit();
   checkGitignore();
   checkPackageJson();

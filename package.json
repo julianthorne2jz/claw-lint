@@ -1,6 +1,6 @@
 {
   "name": "claw-lint",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Project health checker for AI agents - validates projects are ready to ship",
   "main": "index.js",
   "bin": {
@@ -9,7 +9,14 @@
   "scripts": {
     "test": "node index.js --help"
   },
-  "keywords": ["cli", "lint", "project", "health", "agent", "ai"],
+  "keywords": [
+    "cli",
+    "lint",
+    "project",
+    "health",
+    "agent",
+    "ai"
+  ],
   "author": "Julian Thorne <julian.thorne.2jz@proton.me>",
   "license": "MIT",
   "repository": {

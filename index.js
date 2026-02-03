@@ -267,6 +267,17 @@ function checkPackageJson() {
     if (!pkg.description) addWarning('package.json missing "description"');
     else addPassed('package.json has description');
     
+    // Check keywords (crucial for discoverability)
+    if (!pkg.keywords || !Array.isArray(pkg.keywords) || pkg.keywords.length === 0) {
+      addWarning('package.json missing "keywords"');
+    } else {
+      addPassed(`package.json has ${pkg.keywords.length} keywords`);
+    }
+
+    // Check author
+    if (!pkg.author) addWarning('package.json missing "author"');
+    else addPassed('package.json has author');
+    
     // Check main entry exists
     const main = pkg.main || 'index.js';
     if (!fileExists(main)) {
@@ -282,7 +293,25 @@ function checkPackageJson() {
         if (!fileExists(binPath)) {
           addError(`Binary "${name}" at "${binPath}" not found`);
         } else {
-          addPassed(`Binary "${name}" exists`);
+          try {
+            // Check executable permissions (Unix only)
+            if (process.platform !== 'win32') {
+              const stat = fs.statSync(path.join(absPath, binPath));
+              if (!(stat.mode & 0o111)) {
+                 addWarning(`Binary "${name}" is not executable (chmod +x)`);
+              }
+            }
+            
+            // Check shebang
+            const content = readFile(binPath);
+            if (content && !content.startsWith('#!')) {
+               addWarning(`Binary "${name}" missing shebang (#!/usr/bin/env node)`);
+            } else {
+               addPassed(`Binary "${name}" is valid (exists + shebang)`);
+            }
+          } catch (e) {
+             addPassed(`Binary "${name}" exists`);
+          }
         }
       }
     }

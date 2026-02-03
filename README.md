@@ -1,5 +1,16 @@
 # claw-lint
 
+## Install
+
+```bash
+git clone https://github.com/julianthorne2jz/claw-lint
+cd claw-lint
+npm link
+```
+
+Now you can use `claw-lint` from anywhere.
+
+
 Project health checker for AI agents. Validates a project is ready to ship.
 
 ## Features
